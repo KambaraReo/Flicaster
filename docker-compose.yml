@@ -1,0 +1,38 @@
+version: "3.8"
+
+services:
+  backend:
+    build: ./backend
+    container_name: flicaster_backend
+    restart: unless-stopped
+    env_file: .env
+    ports:
+      - "8100:8000"
+    volumes:
+      - ./backend/app:/app
+    depends_on:
+      - db
+
+  frontend:
+    build: ./frontend
+    container_name: flicaster_frontend
+    restart: unless-stopped
+    ports:
+      - "3100:3000"
+    volumes:
+      - ./frontend:/app
+    depends_on:
+      - backend
+
+  db:
+    image: mysql:8.0
+    container_name: flicaster_db
+    restart: unless-stopped
+    env_file: .env
+    ports:
+      - "3310:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+
+volumes:
+  db_data:
