@@ -17,6 +17,7 @@ services:
     build: ./frontend
     container_name: flicaster_frontend
     restart: unless-stopped
+    env_file: .env
     ports:
       - "3100:3000"
     volumes:
