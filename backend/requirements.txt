@@ -6,3 +6,4 @@ shap
 numpy
 sqlalchemy
 pymysql
+cryptography

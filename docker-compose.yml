@@ -9,7 +9,7 @@ services:
     ports:
       - "8100:8000"
     volumes:
-      - ./backend:/app
+      - ./backend/app:/app
     depends_on:
       - db
 
