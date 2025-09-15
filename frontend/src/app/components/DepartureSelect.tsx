@@ -20,13 +20,19 @@ const DepartureSelect: React.FC<Props> = ({ value, setValue }) => {
   }, []);
 
   return (
-    <div>
-      <label className="block mb-1 font-medium">出発空港</label>
+    <div className="mt-4">
+      <label
+        htmlFor="dep-select"
+        className="block text-gray-700 text-sm font-bold mb-2"
+      >
+        出発空港
+      </label>
       <select
+        id="dep-select"
         value={value}
         onChange={(e) => setValue(e.target.value)}
         disabled={loading}
-        className="w-full border rounded px-3 py-2"
+        className="w-full border rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-300"
       >
         <option value="">選択してください</option>
         {airports.map((airport) => (
