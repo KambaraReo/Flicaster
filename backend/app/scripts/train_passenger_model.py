@@ -8,6 +8,8 @@ import os
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 DATA_DIR = os.path.join(BASE_DIR, "data")
+MODEL_DIR = os.path.join(BASE_DIR, "models")
+REPORT_DIR = os.path.join(BASE_DIR, "reports")
 
 # データ読み込み
 df = pd.read_csv(os.path.join(DATA_DIR, "flight_history.csv"))
@@ -18,7 +20,6 @@ X = df[feature_cols]
 y = df["passengers"]
 
 # 学習用とテスト用に分割
-from sklearn.model_selection import train_test_split
 X_train, X_test, y_train, y_test = train_test_split(
   X, y, test_size=0.2, random_state=42
 )
@@ -35,7 +36,8 @@ model = XGBRegressor(
 model.fit(X_train, y_train)
 
 # モデル保存
-model_path = os.path.join(DATA_DIR, "demand_model.pkl")
+os.makedirs(MODEL_DIR, exist_ok=True)
+model_path = os.path.join(MODEL_DIR, "passenger_model.pkl")
 with open(model_path, "wb") as f:
   pickle.dump(model, f)
 
@@ -44,8 +46,10 @@ print(f"モデルを保存しました: {model_path}")
 # SHAP 可視化
 explainer = shap.TreeExplainer(model)
 shap_values = explainer.shap_values(X_test)
+
 plt.figure()
 shap.summary_plot(shap_values, X_test, show=False)
-shap_path = os.path.join(DATA_DIR, "shap_summary.png")
+os.makedirs(REPORT_DIR, exist_ok=True)
+shap_path = os.path.join(REPORT_DIR, "shap_summary_for_pax.png")
 plt.savefig(shap_path)
 print(f"SHAP可視化を保存しました: {shap_path}")
