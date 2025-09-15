@@ -1,10 +1,10 @@
 interface Airport {
-  code: string; // 空港コード（例: HND）
-  name: string; // 空港名（例: Tokyo Haneda）
-  region: string; // 地域（例: Kanto）
-  scale: string; // 規模（例: hub）
-  lat: number; // 緯度
-  lon: number; // 経度
+  code: string;
+  name: string;
+  region: string;
+  scale: string;
+  lat: number;
+  lon: number;
 }
 
 interface Flight {
@@ -17,18 +17,33 @@ interface Flight {
   seat_capacity: number;
 }
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8100";
+const API_BASE_URL =
+  process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8100";
 
-// 空港一覧を返す
+// 全空港リストを取得
 const fetchAirports = async (): Promise<Airport[]> => {
   try {
-    const res = await fetch(`${API_BASE_URL}/api/airports`);
+    const res = await fetch(`${API_BASE_URL}/airports`);
     if (!res.ok) throw new Error("空港リストの取得に失敗しました");
-
     const data: Airport[] = await res.json();
     return data;
   } catch (e) {
     console.log(e);
+    return [];
+  }
+};
+
+// 出発空港に応じた到着空港リストを取得
+const fetchArrivalAirports = async (departure: string): Promise<Airport[]> => {
+  try {
+    const res = await fetch(
+      `${API_BASE_URL}/airports/arrivals?departure=${departure}`
+    );
+    if (!res.ok) throw new Error("到着空港リストの取得に失敗しました");
+    const data: Airport[] = await res.json();
+    return data;
+  } catch (e) {
+    console.error(e);
     return [];
   }
 };
@@ -39,9 +54,10 @@ const fetchFlights = async (
   arrival: string
 ): Promise<Flight[]> => {
   try {
-    const res = await fetch(`${API_BASE_URL}/api/flights`);
+    const res = await fetch(
+      `${API_BASE_URL}/flights/by_route?departure=${departure}&arrival=${arrival}`
+    );
     if (!res.ok) throw new Error("便リストの取得に失敗しました");
-
     const data: Flight[] = await res.json();
     return data;
   } catch (e) {
@@ -51,4 +67,4 @@ const fetchFlights = async (
 };
 
 export type { Airport, Flight };
-export { fetchAirports, fetchFlights };
+export { fetchAirports, fetchArrivalAirports, fetchFlights };
