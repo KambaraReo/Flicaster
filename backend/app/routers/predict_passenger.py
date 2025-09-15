@@ -6,12 +6,8 @@ from pydantic import BaseModel, conint
 
 router = APIRouter(tags=["prediction"])
 
-# モデルロード（初回のみ）
-MODEL_PATH = Path(__file__).resolve().parent.parent / "data" / "demand_model.pkl"
-with open(MODEL_PATH, "rb") as f:
-  model = pickle.load(f)
-
-class Features(BaseModel):
+# 入力用 Pydantic モデル
+class PassengerFeatures(BaseModel):
   month: conint(ge=1, le=12)
   weekday: conint(ge=0, le=6)
   holiday_flag: conint(ge=0, le=1)
@@ -21,8 +17,14 @@ class Features(BaseModel):
   lag_14: float
   lag_30: float
 
-@router.post("/predict/passengers")
-def predict_passengers(features: Features):
+# モデルロード（初回のみ）
+MODEL_PATH = Path(__file__).resolve().parent.parent / "models" / "passenger_model.pkl"
+with open(MODEL_PATH, "rb") as f:
+  model = pickle.load(f)
+
+# POST エンドポイント
+@router.post("/predict/passenger")
+def predict_passengers(features: PassengerFeatures):
   """
   features: JSON形式で特徴量を受け取る
   """
