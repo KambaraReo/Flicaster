@@ -23,7 +23,7 @@ export default function Home() {
       <ArrivalSelect departure={departure} value={arrival} setValue={setArrival} />
 
       <div className="mt-4">
-        <FlightSelect onSelect={setSelectedFlight} />
+        <FlightSelect departure={departure} arrival={arrival} onSelect={setSelectedFlight} />
       </div>
     </div>
   );
