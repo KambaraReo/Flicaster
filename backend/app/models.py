@@ -1,4 +1,4 @@
-from sqlalchemy import Column, String, Float, Integer, DateTime
+from sqlalchemy import Column, String, Float, Integer, Date, DateTime
 from sqlalchemy.ext.declarative import declarative_base
 from datetime import datetime
 
@@ -27,6 +27,42 @@ class Flight(Base):
   distance_km = Column(Float, nullable=False)
   distance_cat = Column(String(20), nullable=False)
   seat_capacity = Column(Integer, nullable=False)
+
+  created_at = Column(DateTime, default=datetime.utcnow)
+  updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
+class FlightHistory(Base):
+  __tablename__ = "flight_histories"
+
+  id = Column(Integer, primary_key=True, autoincrement=True)
+  flight_no = Column(String(20), nullable=False)
+  date = Column(Date, nullable=False)
+  month = Column(Integer, nullable=False)
+  weekday = Column(Integer, nullable=False)
+  holiday_flag = Column(Integer, nullable=False)
+  weather_flag = Column(Integer, nullable=False)
+  reservations = Column(Integer, nullable=False)
+  passengers = Column(Integer, nullable=False)
+  seat_capacity = Column(Integer, nullable=False)
+  load_factor = Column(Float, nullable=False)
+  lag_7 = Column(Float, nullable=True)
+  lag_14 = Column(Float, nullable=True)
+  lag_30 = Column(Float, nullable=True)
+
+  created_at = Column(DateTime, default=datetime.utcnow)
+  updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
+class FlightCondition(Base):
+  __tablename__ = "flight_conditions"
+
+  id = Column(Integer, primary_key=True, autoincrement=True)
+  flight_no = Column(String(20), nullable=False)
+  date = Column(Date, nullable=False)
+  weather_flag = Column(Integer, nullable=False)
+  reservations = Column(Integer, nullable=False)
+  lag_7 = Column(Float, nullable=True)
+  lag_14 = Column(Float, nullable=True)
+  lag_30 = Column(Float, nullable=True)
 
   created_at = Column(DateTime, default=datetime.utcnow)
   updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
