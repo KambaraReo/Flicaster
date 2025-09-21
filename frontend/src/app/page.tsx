@@ -6,12 +6,13 @@ import DepartureSelect from "./components/DepartureSelect";
 import ArrivalSelect from "./components/ArrivalSelect";
 import { Flight } from "@/lib/api";
 import { FlightSelect } from "./components/FlightSelect";
+import { PredictButton } from "./components/PredictButton";
 
 export default function Home() {
   const [date, setDate] = useState("");
   const [departure, setDeparture] = useState("");
   const [arrival, setArrival] = useState("");
-  const [, setSelectedFlight] = useState<Flight | null>(null);
+  const [selectedFlight, setSelectedFlight] = useState<Flight | null>(null);
 
   return (
     <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
@@ -25,6 +26,13 @@ export default function Home() {
       <div className="mt-4">
         <FlightSelect departure={departure} arrival={arrival} onSelect={setSelectedFlight} />
       </div>
+
+      <PredictButton
+        date={date}
+        departure={departure}
+        arrival={arrival}
+        flight={selectedFlight}
+      />
     </div>
   );
 }

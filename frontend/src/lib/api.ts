@@ -17,6 +17,17 @@ interface Flight {
   seat_capacity: number;
 }
 
+interface PredictRequest {
+  date: string;
+  departure: string;
+  arrival: string;
+  flight_no: string;
+}
+
+interface PredictResponse {
+  load_factor: number;
+}
+
 const API_BASE_URL =
   process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8100";
 
@@ -66,5 +77,23 @@ const fetchFlights = async (
   }
 };
 
-export type { Airport, Flight };
-export { fetchAirports, fetchArrivalAirports, fetchFlights };
+// Load Factor予測APIを呼び出す
+const fetchPredictedLoadFactor = async (
+  params: PredictRequest
+): Promise<PredictResponse> => {
+  const res = await fetch("/api/predict", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(params),
+  });
+
+  if (!res.ok) {
+    throw new Error("予測APIの呼び出しに失敗しました");
+  }
+
+  const data: PredictResponse = await res.json();
+  return data;
+};
+
+export type { Airport, Flight, PredictRequest, PredictResponse };
+export { fetchAirports, fetchArrivalAirports, fetchFlights, fetchPredictedLoadFactor };
