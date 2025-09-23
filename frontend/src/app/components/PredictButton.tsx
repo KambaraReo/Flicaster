@@ -10,12 +10,7 @@ interface Props {
   flight: Flight | null;
 }
 
-export const PredictButton = ({
-  date,
-  departure,
-  arrival,
-  flight,
-}: Props) => {
+export const PredictButton = ({date, departure, arrival, flight }: Props) => {
   const [loading, setLoading] = useState(false);
   const [predictedLoadFactor, setPredictedLoadFactor] = useState<number | null>(null);
 
@@ -32,7 +27,7 @@ export const PredictButton = ({
         arrival,
         flight_no: flight.flight_no,
       });
-      setPredictedLoadFactor(data.load_factor);
+      setPredictedLoadFactor(data.prediction);
     } catch (err) {
       console.error(err);
       alert("予測に失敗しました");
@@ -55,7 +50,7 @@ export const PredictButton = ({
 
       {predictedLoadFactor !== null && (
         <div className="mt-4 text-xl font-bold">
-          予測 Load Factor: {(predictedLoadFactor * 100).toFixed(1)} %
+          予測LF: {(predictedLoadFactor * 100).toFixed(1)} %
         </div>
       )}
     </div>

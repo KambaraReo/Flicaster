@@ -25,7 +25,19 @@ interface PredictRequest {
 }
 
 interface PredictResponse {
-  load_factor: number;
+  features: {
+    month: number;
+    weekday: number;
+    holiday_flag: number;
+    weather_flag: number;
+    reservations: number;
+    lag_7: number;
+    lag_14: number;
+    lag_30: number;
+    departure: string;
+    arrival: string;
+  };
+  prediction: number;
 }
 
 const API_BASE_URL =
@@ -81,7 +93,7 @@ const fetchFlights = async (
 const fetchPredictedLoadFactor = async (
   params: PredictRequest
 ): Promise<PredictResponse> => {
-  const res = await fetch("/api/predict", {
+  const res = await fetch(`${API_BASE_URL}/predict/load_factor/from_db`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(params),
