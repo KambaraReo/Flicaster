@@ -1,4 +1,4 @@
-#　 Flicaster
+# Flicaster
 
 XGBoost を用いた航空需要予測のデモアプリ
 
