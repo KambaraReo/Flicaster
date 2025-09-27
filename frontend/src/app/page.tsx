@@ -15,8 +15,10 @@ export default function Home() {
   const [selectedFlight, setSelectedFlight] = useState<Flight | null>(null);
 
   return (
-    <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
-      <h1 className="text-2xl font-bold mb-6 text-center">Load Factor 予測</h1>
+    <div className="max-w-md mx-auto mt-10 p-6 bg-gradient-to-b from-blue-50 via-white to-blue-100 rounded-2xl shadow-xl border border-blue-200">
+      <h1 className="text-2xl font-bold mb-6 text-center text-blue-900">
+        ✈ Load Factor 予測
+      </h1>
 
       <DateSelect value={date} setValue={setDate} />
 
