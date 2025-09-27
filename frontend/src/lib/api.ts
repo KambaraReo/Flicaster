@@ -38,6 +38,18 @@ interface PredictResponse {
     arrival: string;
   };
   prediction: number;
+  shap_values: {
+    month: number;
+    weekday: number;
+    holiday_flag: number;
+    weather_flag: number;
+    reservations: number;
+    lag_7: number;
+    lag_14: number;
+    lag_30: number;
+    dep_encoded: number;
+    arr_encoded: number;
+  }
 }
 
 const API_BASE_URL =

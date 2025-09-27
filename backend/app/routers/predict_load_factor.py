@@ -3,6 +3,7 @@ import pickle
 import pandas as pd
 from pathlib import Path
 from pydantic import BaseModel, conint
+import shap
 
 router = APIRouter(tags=["prediction"])
 
@@ -54,7 +55,15 @@ def predict_load_factor(features: LoadFactorFeatures):
   pred = model.predict(X)
   pred = pred.clip(0, 1)
 
+  # SHAP　値の計算
+  explainer = shap.TreeExplainer(model)
+  shap_values = explainer.shap_values(X)
+
+  # 特徴量ごとの寄与度を dict にまとめる
+  shap_dict = {col: float(val) for col, val in zip(feature_cols, shap_values[0])}
+
   return {
     "features": features.dict(),
-    "prediction": float(pred[0])
+    "prediction": float(pred[0]),
+    "shap_values": shap_dict
   }
