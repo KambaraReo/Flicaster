@@ -6,7 +6,7 @@ import DepartureSelect from "./components/DepartureSelect";
 import ArrivalSelect from "./components/ArrivalSelect";
 import { Flight } from "@/lib/api";
 import { FlightSelect } from "./components/FlightSelect";
-import { PredictButton } from "./components/PredictButton";
+import { PredictLoadFactorCard } from "./components/PredictLoadFactorCard";
 
 export default function Home() {
   const [date, setDate] = useState("");
@@ -27,7 +27,7 @@ export default function Home() {
         <FlightSelect departure={departure} arrival={arrival} onSelect={setSelectedFlight} />
       </div>
 
-      <PredictButton
+      <PredictLoadFactorCard
         date={date}
         departure={departure}
         arrival={arrival}
