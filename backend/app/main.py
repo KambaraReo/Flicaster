@@ -6,6 +6,7 @@ from routers.health import router as health_router
 from routers.predict_passenger import router as predict_passenger_router
 from routers.predict_load_factor import router as predict_load_factor_router
 from routers.predict_load_factor_from_db import router as predict_load_factor_from_db_router
+from routers.predict_load_factor_range_from_db import router as predict_load_factor_range_from_db_router
 from routers.airports import router as airports_router
 from routers.flights import router as flights_router
 
@@ -28,5 +29,6 @@ app.include_router(health_router)
 app.include_router(predict_passenger_router)
 app.include_router(predict_load_factor_router)
 app.include_router(predict_load_factor_from_db_router)
+app.include_router(predict_load_factor_range_from_db_router)
 app.include_router(airports_router)
 app.include_router(flights_router)
