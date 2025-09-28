@@ -49,7 +49,22 @@ interface PredictResponse {
     lag_30: number;
     dep_encoded: number;
     arr_encoded: number;
-  }
+  };
+}
+
+interface PredictInRangeRequest {
+  start_date: string;
+  end_date: string;
+  departure: string;
+  arrival: string;
+  flight_no: string;
+}
+
+interface PredictInRangeResponse {
+  predictions: {
+    date: string;
+    prediction: number;
+  }[];
 }
 
 const API_BASE_URL =
@@ -119,5 +134,36 @@ const fetchPredictedLoadFactor = async (
   return data;
 };
 
-export type { Airport, Flight, PredictRequest, PredictResponse };
-export { fetchAirports, fetchArrivalAirports, fetchFlights, fetchPredictedLoadFactor };
+// 日付範囲での Load Factor予測APIを呼び出す
+const fetchPredictedLoadFactorInRange = async (
+  params: PredictInRangeRequest
+): Promise<PredictInRangeResponse> => {
+  const res = await fetch(`${API_BASE_URL}/predict/load_factor_range/from_db`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(params),
+  });
+
+  if (!res.ok) {
+    throw new Error("予測APIの呼び出しに失敗しました");
+  }
+
+  const data: PredictInRangeResponse = await res.json();
+  return data;
+};
+
+export type {
+  Airport,
+  Flight,
+  PredictRequest,
+  PredictResponse,
+  PredictInRangeRequest,
+  PredictInRangeResponse,
+};
+export {
+  fetchAirports,
+  fetchArrivalAirports,
+  fetchFlights,
+  fetchPredictedLoadFactor,
+  fetchPredictedLoadFactorInRange,
+};

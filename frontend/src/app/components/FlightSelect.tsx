@@ -56,7 +56,7 @@ const FlightSelect: React.FC<Props> = ({ departure, arrival, onSelect }) => {
         <option value="">フライトを選択してください</option>
         {flights.map((flight) => (
           <option key={flight.flight_no} value={flight.flight_no}>
-            {`${flight.flight_no} | ${flight.airline_code} | ${flight.distance_cat} | ${flight.seat_capacity} seats`}
+            {`${flight.flight_no} - ${flight.seat_capacity} seats ( ${flight.distance_cat} )`}
           </option>
         ))}
       </select>
